@@ -20,7 +20,7 @@ flowchart LR
 
 | Component | Role |
 |-----------|------|
-| `render.yaml` | Blueprint: build command, start command, env vars, health check |
+| `render.yaml` | Blueprint: instance plan, build command, start command, env vars, health check |
 | `scripts/render-build.sh` | Installs Python deps, builds frontend, copies `dist` → `backend/static` |
 | `backend/runtime.txt` | Pins Python 3.12 for Render |
 | `SERVE_STATIC=1` | Tells FastAPI to mount `backend/static` at `/` (production only) |
@@ -44,6 +44,7 @@ Render creates one **Web Service** with:
 
 | Setting | Value |
 |---------|-------|
+| Instance plan | **Free** (`plan: free` in `render.yaml`) |
 | Runtime | Python |
 | Root directory | `backend` |
 | Build command | `bash ../scripts/render-build.sh` |
@@ -57,11 +58,12 @@ After the first deploy succeeds, open the service URL (e.g. `https://dns-simulat
 If you prefer to create the service by hand:
 
 1. **New** → **Web Service** → connect your repo.
-2. Set **Root Directory** to `backend`.
-3. **Build Command:** `bash ../scripts/render-build.sh`
-4. **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-5. **Health Check Path:** `/api/health`
-6. Add environment variables (see below).
+2. Set **Instance Type** to **Free**.
+3. Set **Root Directory** to `backend`.
+4. **Build Command:** `bash ../scripts/render-build.sh`
+5. **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+6. **Health Check Path:** `/api/health`
+7. Add environment variables (see below).
 
 ## Environment variables
 
@@ -111,11 +113,26 @@ Backend tests still run without `SERVE_STATIC` (they expect JSON at `/`, not the
 
 Render redeploys automatically when you push to the connected branch. To redeploy without a code change, use **Manual Deploy** → **Deploy latest commit** in the service dashboard.
 
-## Free tier behavior
+## Cost
 
-On Render’s free plan, the web service **spins down after ~15 minutes of inactivity**. The first request after sleep can take 30–60 seconds while the container starts. The health check path keeps monitoring working once the service is up.
+Using a **Blueprint is free** — it is only Render’s infrastructure-as-code format. You pay for the resources it creates (if any).
 
-For a always-on demo, upgrade to a paid instance type in the service settings.
+This project’s `render.yaml` sets `plan: free`, so the web service runs on Render’s **$0/month Free instance**:
+
+| Item | Cost |
+|------|------|
+| Blueprint (IaC) | $0 |
+| Hobby workspace | $0 |
+| Web service (`plan: free`) | $0/month |
+
+Free-tier limits that matter for this app:
+
+- **Cold starts** — spins down after ~15 minutes of inactivity; first request after sleep can take 30–60 seconds
+- **512 MB RAM**, shared CPU
+- **500 build pipeline minutes/month** on Hobby (each deploy consumes some)
+- **5 GB outbound bandwidth/month** on the current Hobby plan
+
+For an always-on demo with no cold starts, upgrade the instance to **Starter** (~$7/month) in the service settings or change `plan: free` to `plan: starter` in `render.yaml`.
 
 ## Troubleshooting
 
