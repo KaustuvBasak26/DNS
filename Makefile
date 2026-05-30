@@ -14,4 +14,11 @@ dev:
 	@echo "Run 'make api' and 'make web' in separate terminals"
 
 test:
-	cd backend && PYTHONPATH=. python3 -m pytest tests/ -q
+	cd backend && PYTHONPATH=. .venv/bin/python -m pytest tests/ -q
+	cd frontend && npm run test:run
+
+test-backend:
+	cd backend && PYTHONPATH=. .venv/bin/python -m pytest tests/ -q
+
+test-frontend:
+	cd frontend && npm run test:run

@@ -38,7 +38,7 @@ This document captures five deliberate review cycles applied to the DNS Resoluti
 - `DemoScenario` model with `description` + `learning_goal`
 - `RecordConversion.zone` field for accurate filtering
 - `/api/demos` endpoint drives UI demo cards
-- 9 resolver unit tests in `backend/tests/test_resolver.py`
+- Resolver unit tests in `backend/tests/` (see [TESTING.md](TESTING.md); now includes API, cache, conversions, and frontend Vitest)
 
 ---
 

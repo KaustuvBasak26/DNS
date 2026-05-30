@@ -63,3 +63,18 @@ def test_scalar_cctld():
     engine = DnsResolverEngine(DnsCache())
     res = engine.resolve(ResolveRequest(domain="www.scalar.in", record_type=RecordType.A))
     assert res.answer == "103.21.244.0"
+
+
+def test_aaaa_portfolio_dev():
+    engine = DnsResolverEngine(DnsCache())
+    res = engine.resolve(ResolveRequest(domain="portfolio.dev", record_type=RecordType.AAAA))
+    assert res.answer and ":" in res.answer
+
+
+def test_geeksforgeeks_org():
+    engine = DnsResolverEngine(DnsCache())
+    res = engine.resolve(
+        ResolveRequest(domain="practice.geeksforgeeks.org", record_type=RecordType.A)
+    )
+    assert res.answer
+    assert any("geeksforgeeks" in s.from_node or "geeksforgeeks" in s.to_node for s in res.steps)

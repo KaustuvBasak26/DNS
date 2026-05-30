@@ -34,6 +34,16 @@ npm run dev
 
 Open **http://localhost:5173**. API docs: **http://localhost:8000/docs**.
 
+### Tests
+
+```bash
+make test              # backend (pytest) + frontend (vitest)
+make test-backend      # Python only
+make test-frontend     # React only
+```
+
+See **[docs/TESTING.md](docs/TESTING.md)** for layout, coverage map, and CI notes.
+
 ### Docker
 
 ```bash
@@ -76,6 +86,7 @@ docker compose up --build
 | [docs/LLD.md](docs/LLD.md) | Modules, APIs, data models |
 | [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md) | Resolution walkthrough |
 | [docs/REVIEW_LOG.md](docs/REVIEW_LOG.md) | Five review/improvement passes |
+| [docs/TESTING.md](docs/TESTING.md) | Test suite, commands, coverage |
 
 ## API overview
 

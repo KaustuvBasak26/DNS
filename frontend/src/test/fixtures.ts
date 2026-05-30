@@ -1,0 +1,40 @@
+import type { ResolutionStep } from "../types";
+
+export const sampleSteps: ResolutionStep[] = [
+  {
+    step: 1,
+    from_node: "client",
+    to_node: "resolver",
+    query_type: "recursive",
+    query: "blog.example.com A",
+    record_type: "A",
+    response: "NOERROR (delegation)",
+    cache_hit: false,
+    elapsed_ms: 12,
+    detail: "Client sends recursive query to resolver.",
+  },
+  {
+    step: 2,
+    from_node: "resolver",
+    to_node: "root",
+    query_type: "iterative",
+    query: "example.com NS",
+    record_type: "A",
+    response: "referral .com TLD",
+    cache_hit: false,
+    elapsed_ms: 18,
+    detail: "Resolver asks root for .com nameservers.",
+  },
+  {
+    step: 3,
+    from_node: "resolver",
+    to_node: "client",
+    query_type: "recursive",
+    query: "blog.example.com A",
+    record_type: "A",
+    response: "93.184.216.34",
+    cache_hit: false,
+    elapsed_ms: 8,
+    detail: "Resolver returns final A record to client.",
+  },
+];

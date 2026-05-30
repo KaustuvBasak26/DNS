@@ -28,7 +28,7 @@ export function SequenceRail({ steps, activeStep, onSelectHop }: Props) {
   const activeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    activeRef.current?.scrollIntoView({
+    activeRef.current?.scrollIntoView?.({
       behavior: "smooth",
       block: "nearest",
       inline: "center",
