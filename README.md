@@ -50,6 +50,16 @@ See **[docs/TESTING.md](docs/TESTING.md)** for layout, coverage map, and CI note
 docker compose up --build
 ```
 
+### Render (production)
+
+Deploy as a single web service (API + UI on one URL). See **[docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)** for the Blueprint setup, env vars, and troubleshooting.
+
+```bash
+# Optional: verify the production build locally
+bash scripts/render-build.sh
+cd backend && SERVE_STATIC=1 uvicorn app.main:app --port 8000
+```
+
 ## Project structure
 
 ```
@@ -59,7 +69,10 @@ docker compose up --build
 │   ├── PRE_REQUIREMENTS.md
 │   ├── HLD.md
 │   ├── LLD.md
-│   └── HOW_IT_WORKS.md
+│   ├── HOW_IT_WORKS.md
+│   └── DEPLOY_RENDER.md
+├── render.yaml
+├── scripts/render-build.sh
 └── docker-compose.yml
 ```
 
@@ -87,6 +100,7 @@ docker compose up --build
 | [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md) | Resolution walkthrough |
 | [docs/REVIEW_LOG.md](docs/REVIEW_LOG.md) | Five review/improvement passes |
 | [docs/TESTING.md](docs/TESTING.md) | Test suite, commands, coverage |
+| [docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md) | Render deployment (Blueprint, env vars, troubleshooting) |
 
 ## API overview
 

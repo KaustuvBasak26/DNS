@@ -12,6 +12,9 @@ node_modules/
 dist/
 build/
 
+# Render production static bundle (built at deploy)
+backend/static/
+
 # Go / Rust
 target/
 Cargo.lock
