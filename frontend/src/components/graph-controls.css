@@ -1,0 +1,32 @@
+.graph-controls-panel {
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.graph-control-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+}
+
+.graph-control-btn.active {
+  background: var(--accent-dim) !important;
+  color: var(--accent);
+}
+
+html.prod-hardened .graph-controls-panel,
+html.prod-hardened .graph-controls-panel * {
+  pointer-events: auto;
+}

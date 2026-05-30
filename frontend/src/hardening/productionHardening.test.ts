@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isEditableTarget,
   isExemptFromCopyBlock,
+  isInteractiveTarget,
   isLocalDevHost,
   shouldApplyHardening,
   shouldBlockKeyDown,
@@ -51,6 +52,21 @@ describe("isExemptFromCopyBlock", () => {
     document.body.appendChild(wrap);
     expect(isExemptFromCopyBlock(child)).toBe(true);
     wrap.remove();
+  });
+});
+
+describe("isInteractiveTarget", () => {
+  it("allows buttons and graph controls", () => {
+    const btn = document.createElement("button");
+    expect(isInteractiveTarget(btn)).toBe(true);
+
+    const panel = document.createElement("div");
+    panel.className = "graph-controls-panel";
+    const inner = document.createElement("span");
+    panel.appendChild(inner);
+    document.body.appendChild(panel);
+    expect(isInteractiveTarget(inner)).toBe(true);
+    panel.remove();
   });
 });
 

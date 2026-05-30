@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ReactFlow,
   Background,
-  Controls,
   MarkerType,
   useNodesState,
   useEdgesState,
@@ -10,6 +9,7 @@ import {
   type Edge,
 } from "@xyflow/react";
 import type { DnsServerNode, NetworkEdge, ResolutionStep } from "../types";
+import { GraphControls } from "./GraphControls";
 import { ServerNode } from "./ServerNode";
 import { PacketAnimator } from "./PacketAnimator";
 import { SequenceRail } from "./SequenceRail";
@@ -48,6 +48,8 @@ export function NetworkGraph({
 }: Props) {
   const { theme } = useTheme();
   const colors = EDGE_COLORS[theme];
+  const [canvasLocked, setCanvasLocked] = useState(false);
+  const interactive = !canvasLocked;
   const activeNodes = useMemo(() => {
     const set = new Set<string>();
     steps.slice(0, activeStep + 1).forEach((s) => {
@@ -200,10 +202,15 @@ export function NetworkGraph({
         nodesConnectable={false}
         elementsSelectable={false}
         elevateNodesOnSelect={false}
+        panOnDrag={interactive}
+        panOnScroll={interactive}
+        zoomOnScroll={interactive}
+        zoomOnPinch={interactive}
+        zoomOnDoubleClick={interactive}
         defaultEdgeOptions={{ type: "smoothstep", zIndex: 0 }}
       >
         <Background color="var(--grid-color)" gap={24} size={1} />
-        <Controls />
+        <GraphControls locked={canvasLocked} onToggleLock={() => setCanvasLocked((v) => !v)} />
         <PacketAnimator step={currentStep} nodes={nodes} color={colors.packet} />
       </ReactFlow>
           </div>

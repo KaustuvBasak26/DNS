@@ -36,6 +36,15 @@ export function isExemptFromCopyBlock(target: EventTarget | null): boolean {
   return !!target.closest(".allow-select");
 }
 
+/** Buttons, links, and React Flow panels must not block selectstart (breaks clicks in WebKit). */
+export function isInteractiveTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  if (isExemptFromCopyBlock(target)) return true;
+  return !!target.closest(
+    "button, [role='button'], a, .react-flow__controls, .react-flow__panel, .graph-controls-panel",
+  );
+}
+
 export function shouldBlockKeyDown(
   key: string,
   modifiers: { ctrl: boolean; meta: boolean; shift: boolean; alt: boolean },
@@ -69,6 +78,16 @@ function blockUnlessExempt(event: Event): void {
   event.preventDefault();
 }
 
+function blockSelectStart(event: Event): void {
+  if (isInteractiveTarget(event.target)) return;
+  event.preventDefault();
+}
+
+function blockDragStart(event: Event): void {
+  if (isInteractiveTarget(event.target)) return;
+  event.preventDefault();
+}
+
 function onKeyDown(event: KeyboardEvent): void {
   if (
     shouldBlockKeyDown(
@@ -87,7 +106,8 @@ function onKeyDown(event: KeyboardEvent): void {
 }
 
 function onSelectionChange(): void {
-  if (isEditableTarget(document.activeElement)) return;
+  const active = document.activeElement;
+  if (isEditableTarget(active) || isInteractiveTarget(active)) return;
   const sel = window.getSelection();
   if (sel && !sel.isCollapsed) sel.removeAllRanges();
 }
@@ -110,8 +130,8 @@ export function installProductionHardening(): () => void {
   document.addEventListener("copy", blockUnlessExempt, options);
   document.addEventListener("cut", blockUnlessExempt, options);
   document.addEventListener("paste", blockUnlessExempt, options);
-  document.addEventListener("selectstart", blockUnlessExempt, options);
-  document.addEventListener("dragstart", blockUnlessExempt, options);
+  document.addEventListener("selectstart", blockSelectStart, options);
+  document.addEventListener("dragstart", blockDragStart, options);
   document.addEventListener("keydown", onKeyDown, options);
   document.addEventListener("selectionchange", onSelectionChange);
   window.addEventListener("beforeprint", onBeforePrint);
@@ -131,8 +151,8 @@ export function installProductionHardening(): () => void {
     document.removeEventListener("copy", blockUnlessExempt, options);
     document.removeEventListener("cut", blockUnlessExempt, options);
     document.removeEventListener("paste", blockUnlessExempt, options);
-    document.removeEventListener("selectstart", blockUnlessExempt, options);
-    document.removeEventListener("dragstart", blockUnlessExempt, options);
+    document.removeEventListener("selectstart", blockSelectStart, options);
+    document.removeEventListener("dragstart", blockDragStart, options);
     document.removeEventListener("keydown", onKeyDown, options);
     document.removeEventListener("selectionchange", onSelectionChange);
     window.removeEventListener("beforeprint", onBeforePrint);
