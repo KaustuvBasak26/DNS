@@ -1,0 +1,35 @@
+/* Active only when html.prod-hardened is set (production deploys). */
+html.prod-hardened,
+html.prod-hardened body,
+html.prod-hardened #root {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html.prod-hardened img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+html.prod-hardened input,
+html.prod-hardened textarea,
+html.prod-hardened select,
+html.prod-hardened .allow-select,
+html.prod-hardened .allow-select * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+html.prod-hardened .react-flow,
+html.prod-hardened .react-flow * {
+  pointer-events: auto;
+}
+
+@media print {
+  html.prod-hardened body {
+    display: none !important;
+  }
+}

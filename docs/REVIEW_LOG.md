@@ -77,3 +77,56 @@ This document captures five deliberate review cycles applied to the DNS Resoluti
 | 4 | `198.51.100.20` | PTR | Mail server reverse DNS |
 | 5 | `staging.api.portfolio.dev` | A | Run twice → cache HIT |
 | 6 | `doesnotexist.portfolio.dev` | A | NXDOMAIN edge case |
+
+---
+
+## Production hardening — 5 improvement passes
+
+Five review cycles for deployment copy/view-source deterrents (`frontend/src/hardening/`).
+
+### Hardening Pass 1 — Consistent prod detection
+
+**Critic:** `index.html` used hostname checks while TS used only `import.meta.env.PROD`; `npm run preview` on localhost would harden locally; IPv6 loopback missed; duplicate logic.
+
+**Improvements:**
+- `shouldApplyHardening()` — active only when `PROD && !isLocalDevHost()`
+- Shared localhost list includes `[::1]`
+- `index.html` inline script aligned with same host rules for early CSS class
+
+### Hardening Pass 2 — UX & graph interaction
+
+**Critic:** Blanket `user-select: none` blocked no escape hatch; risk of breaking React Flow pointer handling; images draggable on long-press (iOS).
+
+**Improvements:**
+- `.allow-select` opt-in regions for future copyable snippets
+- `.react-flow` keeps `pointer-events: auto` (graph pan/zoom/click intact)
+- `-webkit-user-drag: none` on images only (not SVG — avoids breaking the graph)
+- Form controls remain fully selectable
+
+### Hardening Pass 3 — Shortcut & selection gaps
+
+**Critic:** macOS `Option+Cmd+I/J/C` not blocked; paste still worked on page; double-click selection could persist; print could exfiltrate UI.
+
+**Improvements:**
+- `shouldBlockKeyDown()` covers Mac Option+Cmd inspect shortcuts
+- Block `paste` outside editable fields
+- `selectionchange` clears non-input selections
+- `@media print { body { display: none } }` on hardened pages
+
+### Hardening Pass 4 — Testability & build hygiene
+
+**Critic:** Logic untested; `installProductionHardening` could double-register; production source maps would expose readable TS.
+
+**Improvements:**
+- Pure helpers exported for Vitest (`productionHardening.test.ts`, 11 cases)
+- `installed` guard prevents duplicate listeners
+- Vite `build.sourcemap: false` for production bundles
+
+### Hardening Pass 5 — Deterrence & documentation
+
+**Critic:** Silent failure — no ownership signal; no review trace for portfolio; devtools still trivially bypass client JS.
+
+**Improvements:**
+- One-time styled `console.log` attribution + reuse notice (deterrent, not security)
+- This review log section
+- **Limitation (explicit):** client-side hardening cannot prevent DevTools, Network tab, or `curl /api/*` — backend remains the trust boundary
