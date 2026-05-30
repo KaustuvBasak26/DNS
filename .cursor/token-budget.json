@@ -1,0 +1,22 @@
+{
+  "largeFileLineThreshold": 250,
+  "hardDenyLineThreshold": 600,
+  "defaultReadLimit": 150,
+  "maxReadLimitPerCall": 200,
+  "grepDefaultHeadLimit": 40,
+  "grepMaxHeadLimit": 80,
+  "globDefaultHeadLimit": 50,
+  "globMaxHeadLimit": 100,
+  "semanticDefaultResults": 15,
+  "semanticMaxResults": 25,
+  "rereadWarnMinutes": 10,
+  "maxPromptChars": 8000,
+  "maxAttachments": 4,
+  "maxAttachmentLines": 600,
+  "maxExploreSubagentsPerSession": 2,
+  "maxGeneralSubagentsPerSession": 3,
+  "maxWebToolsPerSession": 5,
+  "maxSessionRepoFiles": 25,
+  "sessionStateTtlHours": 24,
+  "blockBinaryFileReads": true
+}

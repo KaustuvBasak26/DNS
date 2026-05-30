@@ -1,0 +1,272 @@
+/* Edges stay BEHIND nodes; nodes have opaque cards */
+.graph-wrap .react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+.graph-wrap .react-flow__edges {
+  z-index: 0 !important;
+}
+
+.graph-wrap .react-flow__edge {
+  z-index: 0 !important;
+}
+
+.graph-wrap .react-flow__nodes {
+  z-index: 1 !important;
+}
+
+.graph-wrap .react-flow__node {
+  z-index: 2 !important;
+  pointer-events: none;
+}
+
+.graph-wrap .react-flow__edge-path {
+  fill: none !important;
+}
+
+.graph-wrap .react-flow__edge.animated path {
+  stroke-dasharray: 8 5;
+  animation: dash-flow 0.45s linear infinite;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -13;
+  }
+}
+
+.server-node-wrap {
+  position: relative;
+  width: 148px;
+  min-height: 76px;
+}
+
+.server-node {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.server-node.active {
+  box-shadow: var(--shadow-md), 0 0 0 2px var(--node-accent, var(--accent));
+}
+
+.flow-handle {
+  width: 7px !important;
+  height: 7px !important;
+  min-width: 7px !important;
+  min-height: 7px !important;
+  background: var(--accent) !important;
+  border: 2px solid var(--surface) !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dns-packet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hop-callout-panel {
+  margin: 0.5rem 3.5rem 0 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.hop-callout {
+  min-width: 200px;
+  max-width: 260px;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.hop-callout--final {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 12%, var(--surface));
+}
+
+.hop-callout-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.hop-callout-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.hop-callout-total {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.hop-callout-route {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.hop-callout--final .hop-callout-route {
+  color: var(--success);
+}
+
+.hop-callout-meta {
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.graph-panel {
+  grid-column: 1 / -1;
+  min-height: 520px;
+}
+
+.graph-panel .panel-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+
+
+
+.sequence-rail-wrap {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.sequence-rail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.85rem 0.3rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.sequence-rail-progress {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.sequence-rail-header strong {
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.sequence-rail {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.45rem;
+  padding: 0 0.85rem 0.65rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.sequence-rail-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  min-width: 6.5rem;
+  max-width: 8.5rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sequence-rail-item:hover:not(.current) {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: var(--surface);
+}
+
+.sequence-rail-route {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 7.5rem;
+}
+
+.sequence-rail-item.done {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: var(--accent-dim);
+}
+
+.sequence-rail-item.current {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.sequence-rail-item.current .sequence-rail-num,
+.sequence-rail-item.current .sequence-rail-label {
+  color: #fff;
+}
+
+.sequence-rail-item.final.current {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.sequence-rail-num {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.sequence-rail-item.current .sequence-rail-route,
+.sequence-rail-item.current .sequence-rail-num {
+  color: #fff;
+}
+
+.sequence-rail-item.done .sequence-rail-num {
+  color: var(--accent);
+}
+
+.sequence-rail-item.done .sequence-rail-route {
+  color: var(--text);
+}
+
+.server-node.final {
+  box-shadow: var(--shadow-md), 0 0 0 2px var(--success);
+}
+
+.step-item.final .step-num {
+  background: var(--success);
+  color: #fff;
+}
+
+.step-item.done .step-num {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}

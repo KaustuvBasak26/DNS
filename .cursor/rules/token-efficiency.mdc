@@ -1,0 +1,16 @@
+---
+description: Minimize token usage for agent sessions
+alwaysApply: true
+---
+
+# Token efficiency
+
+Hooks enforce budget before every prompt, tool call, file read, shell command, MCP call, and Tab read.
+
+- Smallest complete answer. No preamble or recap unless asked.
+- Grep/Glob/SemanticSearch (≤15 results) before Read.
+- Read: offset+limit only (≤150 lines; hard max 200/read).
+- No Task subagents for needle lookups; max 2 explore + 3 generalPurpose per session.
+- Max 5 WebSearch/WebFetch per session. Reuse prior results.
+- No README/docs unless requested. No drive-by refactors.
+- Reuse session context; never re-read the same file/range.

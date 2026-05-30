@@ -1,0 +1,51 @@
+# Non-source / heavy assets (keep out of index + agent context)
+**/*.pdf
+**/*.pages
+**/*.zip
+**/*.tar
+**/*.tar.gz
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.ico
+**/.DS_Store
+
+# Dependencies & build output
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/venv/
+**/.venv/
+**/dist/
+**/build/
+**/target/
+**/coverage/
+**/.next/
+**/.nuxt/
+
+# Minified / generated
+**/*.min.js
+**/*.min.css
+**/*.map
+**/*.lock
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+**/Cargo.lock
+**/go.sum
+
+# VCS & IDE noise
+.git/
+**/.idea/
+**/*.swp
+**/*.swo
+
+# Secrets
+.env
+.env.*
+**/*credentials*
+**/*secret*

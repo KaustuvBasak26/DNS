@@ -1,0 +1,1 @@
+"""Educational DNS resolver simulation."""

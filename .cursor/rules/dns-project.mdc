@@ -1,0 +1,12 @@
+---
+description: DNS implementation conventions
+globs: "**/*.{py,go,rs,js,ts,c,cpp,h,java}"
+alwaysApply: false
+---
+
+# DNS codebase
+
+- Implement DNS concepts clearly: resolver, cache, TTL, record types (A, AAAA, CNAME, MX, NS, TXT).
+- Keep modules small and testable; one concern per file when the repo grows.
+- Match existing language/style in the tree before introducing new patterns.
+- Add tests only for non-trivial resolver/cache/serialization behavior.

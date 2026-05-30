@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": ".cursor/hooks/session-context.sh", "timeout": 5 }
+    ],
+    "sessionEnd": [
+      { "command": ".cursor/hooks/cleanup-state.sh", "timeout": 5 }
+    ],
+    "beforeSubmitPrompt": [
+      { "command": ".cursor/hooks/before-prompt-budget.sh", "timeout": 5 }
+    ],
+    "preToolUse": [
+      { "command": ".cursor/hooks/pre-tool-budget.sh", "timeout": 8 }
+    ],
+    "beforeReadFile": [
+      { "command": ".cursor/hooks/before-read-file-budget.sh", "timeout": 5, "failClosed": true }
+    ],
+    "beforeShellExecution": [
+      { "command": ".cursor/hooks/before-shell-budget.sh", "timeout": 5, "failClosed": true }
+    ],
+    "beforeMCPExecution": [
+      { "command": ".cursor/hooks/before-mcp-budget.sh", "timeout": 5 }
+    ],
+    "beforeTabFileRead": [
+      { "command": ".cursor/hooks/tab-read-budget.sh", "timeout": 3 }
+    ],
+    "postToolUse": [
+      { "command": ".cursor/hooks/track-tool-dupes.sh", "matcher": "Read|Grep", "timeout": 5 }
+    ],
+    "subagentStart": [
+      { "command": ".cursor/hooks/subagent-budget.sh", "timeout": 5 }
+    ],
+    "preCompact": [
+      { "command": ".cursor/hooks/pre-compact-budget.sh", "timeout": 3 }
+    ]
+  }
+}
