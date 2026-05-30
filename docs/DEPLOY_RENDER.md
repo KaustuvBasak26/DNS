@@ -46,10 +46,12 @@ Render creates one **Web Service** with:
 |---------|-------|
 | Instance plan | **Free** (`plan: free` in `render.yaml`) |
 | Runtime | Python |
-| Root directory | `backend` |
-| Build command | `bash ../scripts/render-build.sh` |
-| Start command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| Root directory | **Repo root** (empty — not `backend`) |
+| Build command | `bash scripts/render-build.sh` |
+| Start command | `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Health check | `/api/health` |
+
+> **Why repo root?** If root directory is `backend`, Render only redeploys when files under `backend/` change — frontend edits (React, CSS, `index.html`) would **not** trigger auto-deploy. The build script still installs Python deps and builds the frontend; the start command runs uvicorn from `backend/`.
 
 After the first deploy succeeds, open the service URL (e.g. `https://dns-simulator.onrender.com`). The simulator UI loads at `/`; API docs are at `/docs`.
 
@@ -59,9 +61,9 @@ If you prefer to create the service by hand:
 
 1. **New** → **Web Service** → connect your repo.
 2. Set **Instance Type** to **Free**.
-3. Set **Root Directory** to `backend`.
-4. **Build Command:** `bash ../scripts/render-build.sh`
-5. **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+3. Leave **Root Directory** empty (repo root). Do **not** set it to `backend` only — that skips redeploys on frontend changes.
+4. **Build Command:** `bash scripts/render-build.sh`
+5. **Start Command:** `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 6. **Health Check Path:** `/api/health`
 7. Add environment variables (see below).
 
