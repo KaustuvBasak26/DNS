@@ -49,7 +49,7 @@ export function NetworkGraph({
   const { theme } = useTheme();
   const colors = EDGE_COLORS[theme];
   const [canvasLocked, setCanvasLocked] = useState(false);
-  const interactive = !canvasLocked;
+  const [lockedZoom, setLockedZoom] = useState<number | null>(null);
   const activeNodes = useMemo(() => {
     const set = new Set<string>();
     steps.slice(0, activeStep + 1).forEach((s) => {
@@ -202,15 +202,23 @@ export function NetworkGraph({
         nodesConnectable={false}
         elementsSelectable={false}
         elevateNodesOnSelect={false}
-        panOnDrag={interactive}
-        panOnScroll={interactive}
-        zoomOnScroll={interactive}
-        zoomOnPinch={interactive}
-        zoomOnDoubleClick={interactive}
+        panOnDrag={!canvasLocked}
+        panOnScroll={false}
+        zoomOnScroll={!canvasLocked}
+        zoomOnPinch={!canvasLocked}
+        zoomOnDoubleClick={!canvasLocked}
+        minZoom={canvasLocked && lockedZoom != null ? lockedZoom : 0.25}
+        maxZoom={canvasLocked && lockedZoom != null ? lockedZoom : 1.15}
         defaultEdgeOptions={{ type: "smoothstep", zIndex: 0 }}
       >
         <Background color="var(--grid-color)" gap={24} size={1} />
-        <GraphControls locked={canvasLocked} onToggleLock={() => setCanvasLocked((v) => !v)} />
+        <GraphControls
+          locked={canvasLocked}
+          onLockChange={(locked, zoom) => {
+            setCanvasLocked(locked);
+            setLockedZoom(locked ? (zoom ?? null) : null);
+          }}
+        />
         <PacketAnimator step={currentStep} nodes={nodes} color={colors.packet} />
       </ReactFlow>
           </div>

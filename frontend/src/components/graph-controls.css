@@ -26,6 +26,28 @@
   color: var(--accent);
 }
 
+.graph-control-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.graph-interaction-shield-panel {
+  margin: 0 !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: 4 !important;
+}
+
+.graph-interaction-shield {
+  width: 100%;
+  height: 100%;
+  cursor: not-allowed;
+  touch-action: none;
+}
+
 html.prod-hardened .graph-controls-panel,
 html.prod-hardened .graph-controls-panel * {
   pointer-events: auto;
